@@ -1,0 +1,15 @@
+{
+    "tasks": {
+        "compile:lin": "deno compile -A --env-file --target x86_64-unknown-linux-gnu --output dist/tws-cli-lin main.ts",
+        "compile:mac": "deno compile -A --env-file --target aarch64-apple-darwin --output dist/tws-cli-mac main.ts",
+        "compile:win": "deno compile -A --env-file --target x86_64-pc-windows-msvc --output dist/tws-cli-win main.ts",
+        "dev:watch": "deno run -A --env-file --watch main.ts",
+        "dev": "deno run -A --env-file main.ts"
+    },
+    "imports": {
+        "@std/assert": "jsr:@std/assert@1",
+        "@std/cli": "jsr:@std/cli@^1.0.12",
+        "@trigger.dev/sdk": "npm:@trigger.dev/sdk@^3.3.16",
+        "commander": "npm:commander@^13.1.0"
+    }
+}
