@@ -7,9 +7,11 @@
         "dev": "deno run -A --env-file main.ts"
     },
     "imports": {
+        "@railway/cli": "npm:@railway/cli@^4.0.0",
         "@std/assert": "jsr:@std/assert@1",
-        "@std/cli": "jsr:@std/cli@^1.0.12",
+        "@std/cli": "jsr:@std/cli@^1.0.16",
         "@trigger.dev/sdk": "npm:@trigger.dev/sdk@^3.3.16",
-        "commander": "npm:commander@^13.1.0"
+        "commander": "npm:commander@^13.1.0",
+        "fs-extra": "npm:fs-extra@^11.3.0"
     }
 }
