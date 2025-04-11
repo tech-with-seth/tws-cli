@@ -2,7 +2,7 @@ import { program } from 'npm:commander';
 import { configure } from 'npm:@trigger.dev/sdk/v3';
 import { env } from 'node:process';
 
-import { createProject } from './utils/common.ts';
+import { createReactRouterProject } from './utils/common.ts';
 
 configure({
     secretKey: env.TRIGGER_SECRET_KEY
@@ -16,7 +16,7 @@ program
     .command('static')
     .argument('<name>', 'Project name')
     .action(async (projectName) => {
-        await createProject(projectName, './tws-static');
+        await createReactRouterProject(projectName, './tws-static');
     });
 
 program.parse();
