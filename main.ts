@@ -1,8 +1,8 @@
-import { Option, program } from 'npm:commander';
+import { program } from 'npm:commander';
 import { configure } from 'npm:@trigger.dev/sdk/v3';
 import { env } from 'node:process';
 
-import { copyTwsStatic, templateChoices } from './actions/static.ts';
+import { createProject } from './utils/common.ts';
 
 configure({
     secretKey: env.TRIGGER_SECRET_KEY
@@ -15,13 +15,8 @@ program
     .description('Project starter')
     .command('static')
     .argument('<name>', 'Project name')
-    .addOption(
-        new Option('--template <item>', 'Template repo').choices(
-            templateChoices
-        )
-    )
-    .option('--git-init', 'Initialize repo', false)
-    .option('--npm-install', 'Install node modules', false)
-    .action(copyTwsStatic);
+    .action(async (projectName) => {
+        await createProject(projectName, './tws-static');
+    });
 
 program.parse();

@@ -1,20 +1,20 @@
-export async function copyTwsStatic(projectName: string) {
+export async function copyCms(projectName: string) {
     console.log(`\nProject name: ${projectName}\n`);
 
     const commandArgs = [
         `create-react-router@latest`,
         projectName,
         `--template`,
-        `./tws-static`
+        `./tws-cms`
     ];
 
-    const staticCommand = new Deno.Command('npx', {
+    const cmsCommand = new Deno.Command('npx', {
         args: commandArgs
     });
 
     console.log(`Running command: "npx ${commandArgs.join(' ')}"`);
 
-    const { code } = await staticCommand.output();
+    const { code } = await cmsCommand.output();
 
     if (code === 0) {
         console.log('✅ Project created successfully!');
