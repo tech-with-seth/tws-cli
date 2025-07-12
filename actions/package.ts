@@ -393,6 +393,22 @@ jobs:
             console.log(
                 '✅ npm package scaffolded successfully and ready to deploy!'
             );
+
+            // Open the project in VS Code
+            const codeOpen = new Deno.Command('code', {
+                args: ['.'],
+                cwd: root,
+                stdout: 'inherit',
+                stderr: 'inherit'
+            });
+            const { code: codeOpenCode } = await codeOpen.output();
+            if (codeOpenCode === 0) {
+                console.log('✅ Opened project in VS Code.');
+            } else {
+                console.log(
+                    '⚠️  Could not open VS Code automatically. You can manually run "code ." in the project directory.'
+                );
+            }
         }
     } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
