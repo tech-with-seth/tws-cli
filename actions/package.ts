@@ -66,7 +66,7 @@ export async function createNpmPackageProject(
                 format: 'prettier --write .',
                 'check-format': 'prettier --check .',
                 changeset: 'changeset',
-                release: 'changeset version && changeset publish',
+                release: 'changeset version',
                 prepublishOnly: 'npm run ci'
             },
             license: 'MIT'
@@ -262,7 +262,29 @@ gh repo create sethdavis512/${name} --public --push
         await fs.ensureDir(workflowDir);
         await fs.writeFile(
             `${workflowDir}/publish.yml`,
-            `name: Publish Package\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 20\n          registry-url: 'https://registry.npmjs.org/'\n      - run: npm install\n      - run: npm run build\n      - run: npm publish\n        env:\n          NODE_AUTH_TOKEN: $\{{ secrets.NPM_TOKEN }}\n`
+            `name: Publish Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org/'
+      - run: npm install
+      - run: npm run build
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: \${{ secrets.NPM_TOKEN }}
+`
         );
 
         // Write .prettierrc
