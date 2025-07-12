@@ -135,6 +135,28 @@ function createNewCommand(initialArg: string, args: string[]) {
 -   **Environment Variables**: Use `env` from `node:process` for environment variable access
 -   **Secrets**: Store sensitive data like npm tokens in environment variables
 -   **Default Values**: Provide sensible defaults for optional configurations
+-   **Git Repository Management**
+    -   **Repository Initialization**: Always use `git init` to initialize repositories
+    -   **Remote Origin Setup**: Configure remote origin URL using `git remote add origin <url>`
+    -   **GitHub Integration**: Use consistent GitHub URL patterns (`https://github.com/sethdavis512/<name>.git`)
+    -   **Error Handling**: Provide clear feedback for git operations success/failure
+
+```typescript
+// ✅ Git setup pattern
+const gitInit = new Deno.Command('git', {
+    args: ['init'],
+    cwd: root,
+    stdout: 'inherit',
+    stderr: 'inherit'
+});
+const { code: gitCode } = await gitInit.output();
+
+if (gitCode === 0) {
+    console.log('✅ Initialized a new git repository.');
+} else {
+    console.error('❌ Failed to initialize git repository.');
+}
+```
 
 ## Testing Requirements
 
@@ -226,6 +248,10 @@ deno task compile:win
 
 -   **`tws new static <name>`**: Creates a React Router project using the `./tws-static` template
 -   **`tws new package <name>`**: Scaffolds a complete npm package with TypeScript, Prettier, Vitest, and Changesets
+    -   Initializes git repository with `git init`
+    -   Configures remote origin to `https://github.com/sethdavis512/<name>.git`
+    -   Sets up complete CI/CD pipeline with GitHub Actions
+    -   Includes ESLint, Prettier, and testing configuration
 
 ## Integration Guidelines
 
