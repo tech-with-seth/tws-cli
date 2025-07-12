@@ -32,13 +32,20 @@ const fs = require('fs');
 
 ```typescript
 // ✅ Command structure pattern
-program
-    .command('new')
-    .description('Project starter')
+const newProjectCommand = program.command('new').description('Project starter');
+
+newProjectCommand
     .command('static')
     .argument('<name>', 'Project name')
     .action(async (projectName) => {
         await createReactRouterProject(projectName, './tws-static');
+    });
+
+newProjectCommand
+    .command('package')
+    .argument('<name>', 'Package name')
+    .action(async (packageName) => {
+        await createNpmPackageProject(packageName);
     });
 ```
 
@@ -112,7 +119,7 @@ function createNewCommand(initialArg: string, args: string[]) {
 
 ### 1. Project Templates
 
--   **Template Types**: Support for `tws-static`, `tws-cms`, and auth scaffolding
+-   **Template Types**: Support for `tws-static` React Router templates and npm package scaffolding
 -   **Template Paths**: Use relative paths starting with `./` for local templates
 -   **Project Names**: Always validate and sanitize project names from user input
 
@@ -120,13 +127,13 @@ function createNewCommand(initialArg: string, args: string[]) {
 
 -   **NPX Usage**: Use `npx create-react-router@latest` for React Router project creation
 -   **GitHub CLI**: Use `gh` commands for repository creation and management
--   **Railway**: Use Railway CLI for deployment (currently commented out pending team support)
--   **Trigger.dev**: Use SDK v3 for background task management
+-   **npm/Changesets**: Use npm and Changesets for package publishing workflows
+-   **Vitest**: Use Vitest for testing in generated packages
 
 ### 3. Configuration Management
 
 -   **Environment Variables**: Use `env` from `node:process` for environment variable access
--   **Secrets**: Store sensitive data like `TRIGGER_SECRET_KEY` in environment variables
+-   **Secrets**: Store sensitive data like npm tokens in environment variables
 -   **Default Values**: Provide sensible defaults for optional configurations
 
 ## Testing Requirements
@@ -162,12 +169,11 @@ Deno.test(function projectCreationTest() {
 
 ```typescript
 // ✅ Parallel async operations
-await Promise.all(
-    FILES.map(async (fileObj) => {
-        const text = await pullFileText(fileObj, BASE_URL);
-        return writeFile(fileObj, text);
-    })
-);
+await Promise.all([
+    fs.writeFile(`${root}/src/index.ts`, indexContent),
+    fs.writeFile(`${root}/src/utils.ts`, utilsContent),
+    fs.writeFile(`${root}/LICENSE`, licenseContent)
+]);
 ```
 
 ### 2. Security Considerations
@@ -216,6 +222,11 @@ deno task compile:win
 -   **Config**: `deno.json` for all configuration
 -   **Distribution**: Compiled binaries (`dist/`)
 
+### 3. Current Commands
+
+-   **`tws new static <name>`**: Creates a React Router project using the `./tws-static` template
+-   **`tws new package <name>`**: Scaffolds a complete npm package with TypeScript, Prettier, Vitest, and Changesets
+
 ## Integration Guidelines
 
 ### 1. Adding New Commands
@@ -231,6 +242,13 @@ deno task compile:win
 -   **Prefer Deno**: Use Deno-native packages when available
 -   **npm Packages**: Use npm: prefix for Node.js packages
 -   **Version Pinning**: Pin versions in `deno.json` imports
+
+### 3. Current Dependencies
+
+-   **Commander.js**: CLI framework (`npm:commander`)
+-   **fs-extra**: File system utilities (`npm:fs-extra`)
+-   **@std/assert**: Deno testing assertions (`jsr:@std/assert`)
+-   **@std/cli**: Deno CLI utilities (`jsr:@std/cli`)
 
 ## Documentation Standards
 
