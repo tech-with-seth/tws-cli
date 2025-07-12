@@ -49,7 +49,7 @@ export async function createNpmPackageProject(
             bugs: {
                 url: `https://github.com/sethdavis512/${name}/issues`
             },
-            author: 'Seth Davis <seth@sethdavis.io> (https://sethdavis.io)',
+            author: 'Seth Davis <techwithseth512@gmail.com> (https://sethdavis.tech)',
             repository: {
                 type: 'git',
                 url: `git+https://github.com/sethdavis512/${name}.git`
