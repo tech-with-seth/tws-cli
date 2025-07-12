@@ -1,12 +1,12 @@
 import { program } from 'npm:commander';
-import { configure } from 'npm:@trigger.dev/sdk/v3';
+// import { configure } from 'npm:@trigger.dev/sdk/v3';
 import { env } from 'node:process';
 
 import { createReactRouterProject } from './utils/common.ts';
 
-configure({
-    secretKey: env.TRIGGER_SECRET_KEY
-});
+// configure({
+//     secretKey: env.TRIGGER_SECRET_KEY
+// });
 
 program.name('tws-cli').description('A Tech with Seth CLI').version('0.0.1');
 
