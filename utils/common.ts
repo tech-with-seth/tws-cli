@@ -6,7 +6,7 @@ function createNewCommand(initialArg: string, args: string[]) {
     });
 }
 
-async function runTool(
+export async function runCommand(
     toolName: string,
     args: string[],
     successMsg?: string,
@@ -33,7 +33,7 @@ export async function createReactRouterProject(
 ) {
     console.log(`\nProject name: ${projectName}\n`);
 
-    await runTool('npx', [
+    await runCommand('npx', [
         `create-react-router@latest`,
         projectName,
         `--template`,
@@ -42,7 +42,7 @@ export async function createReactRouterProject(
         `--install`
     ]);
 
-    await runTool('gh', [
+    await runCommand('gh', [
         'repo',
         'create',
         projectName,
@@ -51,33 +51,4 @@ export async function createReactRouterProject(
         `./${projectName}`,
         '--push'
     ]);
-
-    // COMMENTING UNTIL INIT CAN TAKE A TEAM
-
-    // await runTool(
-    //     'railway',
-    //     ['init', '--name', projectName],
-    //     '✅ Successfully initialized',
-    //     '❌ Failed to initialize Railway project...'
-    // );
-    // await runTool(
-    //     'railway',
-    //     [
-    //         'link',
-    //         '--project',
-    //         projectName,
-    //         '--team',
-    //         `Seth Davis's Projects`,
-    //         '--environment',
-    //         'prod'
-    //     ],
-    //     '✅ Successfully linked Railway project',
-    //     '❌ Failed to link Railway project...'
-    // );
-    // await runTool(
-    //     'railway',
-    //     ['up'],
-    //     '✅ Successfully deployed',
-    //     '❌ Failed to deploy Railway project...'
-    // );
 }
