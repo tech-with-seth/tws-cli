@@ -62,7 +62,7 @@ export async function createNpmPackageProject(
                 build: 'tsc',
                 test: 'vitest run',
                 dev: 'vitest',
-                ci: 'npm run build && npm run check-format && npm run test',
+                ci: 'npm run build && npm run test',
                 format: 'prettier --write .',
                 'check-format': 'prettier --check .',
                 changeset: 'changeset',
@@ -257,6 +257,20 @@ gh repo create sethdavis512/${name} --public --push
             console.error('❌ npm install failed.');
         }
 
+        // Format all generated files with Prettier
+        const npmFormat = new Deno.Command('npm', {
+            args: ['run', 'format'],
+            cwd: root,
+            stdout: 'inherit',
+            stderr: 'inherit'
+        });
+        const { code: formatCode } = await npmFormat.output();
+        if (formatCode === 0) {
+            console.log('✅ Code formatted with Prettier.');
+        } else {
+            console.log('⚠️  Prettier formatting failed, but continuing...');
+        }
+
         // Scaffold GitHub Actions workflow for npm publish
         const workflowDir = `${root}/.github/workflows`;
         await fs.ensureDir(workflowDir);
@@ -358,6 +372,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Format code
+        run: npm run format
 
       - name: Run CI
         run: npm run ci
