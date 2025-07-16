@@ -27,17 +27,14 @@ export async function runCommand(
     }
 }
 
-export async function createReactRouterProject(
-    projectName: string,
-    templateDir: string
-) {
+export async function createReactRouterProject(projectName: string) {
     console.log(`\nProject name: ${projectName}\n`);
 
     await runCommand('npx', [
         `create-react-router@latest`,
-        projectName,
+        `/Users/seth/repositories/${projectName}`,
         `--template`,
-        templateDir,
+        `/Users/seth/repositories/tws-static`,
         `--git-init`,
         `--install`
     ]);
@@ -51,4 +48,6 @@ export async function createReactRouterProject(
         `./${projectName}`,
         '--push'
     ]);
+
+    await runCommand('code', [`/Users/seth/repositories/${projectName}`]);
 }

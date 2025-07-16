@@ -11,7 +11,7 @@ newProjectCommand
     .command('static')
     .argument('<name>', 'Project name')
     .action(async (projectName) => {
-        await createReactRouterProject(projectName, './tws-static');
+        await createReactRouterProject(projectName);
     });
 
 newProjectCommand
