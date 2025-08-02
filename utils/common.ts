@@ -28,13 +28,16 @@ export async function runCommand(
 }
 
 export async function createReactRouterProject(projectName: string) {
+    const { getConfig } = await import('../config.ts');
+    const config = getConfig();
+    
     console.log(`\nProject name: ${projectName}\n`);
 
     await runCommand('npx', [
         `create-react-router@latest`,
-        `/Users/seth/repositories/${projectName}`,
+        `${config.paths.repositoriesRoot}/${projectName}`,
         `--template`,
-        `/Users/seth/repositories/tws-static`,
+        config.templates.staticTemplate,
         `--git-init`,
         `--install`
     ]);
